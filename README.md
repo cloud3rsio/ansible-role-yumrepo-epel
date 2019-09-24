@@ -16,7 +16,7 @@ Nothing.
 Dependencies
 ------------
 
-- cloud3rsio.yumrepo_common
+- `cloud3rsio.yumrepo_common`
 
 Example Playbook
 ----------------

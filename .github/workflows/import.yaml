@@ -2,8 +2,8 @@ name: Import role
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   import:
