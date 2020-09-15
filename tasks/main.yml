@@ -4,22 +4,25 @@
   changed_when: False
   ignore_errors: True
   register: epel_status
+  when: ansible_distribution == "Amazon" or (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
+
+- name: Check epel status
+  shell: yum-config-manager --dump epel | grep -q 'enabled = 1'
+  changed_when: False
+  ignore_errors: True
+  register: epel_status
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
 
 - name: Install epel from amazon-linux-extras
   command: amazon-linux-extras install epel -y
-  when:
-    - ansible_distribution == "Amazon"
-    - epel_status.rc != 0
+  when: ansible_distribution == "Amazon" and epel_status.rc != 0
 
 - name: Install epel-release
   yum:
     name: epel-release
     state: present
-  when:
-    - ansible_distribution == "CentOS"
-    - epel_status.rc != 0
+  when: ansible_distribution == "CentOS"
 
 - name: Enabled epel
   command: yum-config-manager --enable epel
-  when:
-    - epel_status.rc != 0
+  when: epel_status.rc != 0
